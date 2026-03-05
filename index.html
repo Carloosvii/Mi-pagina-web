@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carlos López Estrada — Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- PANEL EDICIÓN -->
+    <div id="edit-panel" class="edit-panel" style="display: none;">
+        <div class="edit-overlay" onclick="closeEditPanel()"></div>
+        <div class="edit-modal">
+            <div class="edit-header">
+                <h2>✏️ Editar Perfil</h2>
+                <button class="close-btn" onclick="closeEditPanel()">✕</button>
+            </div>
+            <div class="edit-body">
+                <label>Nombre:</label>
+                <input type="text" id="edit-name" placeholder="Tu nombre completo">
+
+                <label>Título:</label>
+                <input type="text" id="edit-title" placeholder="Ej: Computer Engineering Student">
+
+                <label>Descripción:</label>
+                <textarea id="edit-desc" placeholder="Cuéntanos sobre ti..."></textarea>
+
+                <label>Email:</label>
+                <input type="email" id="edit-email" placeholder="tu@email.com">
+
+                <label>Teléfono:</label>
+                <input type="tel" id="edit-phone" placeholder="+1 (555) 123-4567">
+
+                <label>Ubicación:</label>
+                <input type="text" id="edit-location" placeholder="Ciudad, País">
+
+                <div class="edit-actions">
+                    <button class="btn btn-primary" onclick="saveProfile()">Guardar cambios</button>
+                    <button class="btn btn-secondary" onclick="closeEditPanel()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="navbar">
+        <div class="container navbar-inner">
+            <a href="#" class="logo">Carlos</a>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#certifications">Certifications</a>
+                <a href="#hobbies">Hobbies</a>
+                <a href="#contact">Contact</a>
+                <button id="edit-toggle" class="btn-settings" onclick="toggleEditMode()">⚙️</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-wrapper">
+                <div class="hero-text">
+                    <p class="hello">Hello, I'm</p>
+                    <h1 id="hero-name">Carlos<br>López Estrada</h1>
+                    <p class="subtitle" id="hero-title">Computer Engineering Student</p>
+                    <p class="lead" id="hero-desc">I'm a passionate Computer Engineering student with a strong interest
+                        in technology, innovation, and creating solutions that make a difference.</p>
+                    <div class="hero-buttons">
+                        <a href="cv_lopez_estrada_carlos.pdf" download="cv_lopez_estrada_carlos.pdf" class="btn btn-primary">Download CV</a>
+                        <a href="https://www.linkedin.com/in/carlos-l%C3%B3pez-estrada/" target="_blank"
+                            class="btn btn-secondary"> LinkedIn</a>
+                        <a href="https://github.com/carloslestrada" target="_blank" class="btn btn-secondary">
+                            GitHub</a>
+                    </div>
+                </div>
+                <div class="hero-avatar">
+                    <div class="avatar-circle">
+                        <img src="carlitos.jpg" alt="Carlos López Estrada" class="avatar-img">
+                        <div class="badge badge-1">iOS </div>
+                        <div class="badge badge-2">Security</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p class="about-text" id="about-text">I'm a passionate Computer Engineering student with a strong interest
+                in technology, innovation, and creating solutions that make a difference. I love exploring new
+                technologies and applying them to real-world problems. My goal is to become a skilled software engineer
+                who can contribute to meaningful projects and continuously learn in this ever-evolving field.</p>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <span class="stat-number">22</span>
+                    <span class="stat-label">Age</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">10+</span>
+                    <span class="stat-label">Projects</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">3+</span>
+                    <span class="stat-label">Years Learning</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Passion</span>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>Email</h3>
+                    <p id="info-email">carlos.lopez@email.com</p>
+                </div>
+                <div class="info-card">
+                    <h3>Location</h3>
+                    <p id="info-location">Mexico City, Mexico</p>
+                </div>
+                <div class="info-card">
+                    <h3>Languages</h3>
+                    <p>Spanish, English</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- CERTIFICATIONS -->
+<section id="certifications" class="section certifications">
+    <div class="container">
+        <h2>Certifications</h2>
+        <div class="certs-grid">
+            <div class="cert-card">
+                <img src="img/aws-logo.png" alt="AWS" class="cert-img-top">
+                <h3>AWS Cloud Practitioner</h3>
+                <p class="cert-org">Amazon Web Services</p>
+                <p class="cert-year">2024</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section projects">
+    <div class="container">
+        <h2>My Work</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <img src="carlitos.jpg" alt="E-commerce" class="card-img">
+                <div class="card-content">
+                    <h3>E-Commerce Platform</h3>
+                    <p>A full-stack e-commerce application with payment integration.</p>
+                    <div class="project-tags">React · Node.js · MongoDB</div>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="img/taskapp.jpg" alt="Task App" class="card-img">
+                <div class="card-content">
+                    <h3>Task Management App</h3>
+                    <p>A collaborative tool with real-time updates.</p>
+                    <div class="project-tags">Vue.js · Firebase</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="hobbies" class="section hobbies">
+    <div class="container">
+        <h2>Beyond Code</h2>
+        <div class="hobbies-grid">
+            <div class="hobby-card">
+                <img src="img/photo.jpg" alt="Photography" class="hobby-img">
+                <div class="hobby-info">
+                    <span class="hobby-icon">📷</span>
+                    <h3>Photography</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <p class="section-subtitle">Let's Connect</p>
+            <p class="section-desc">Have a project in mind or just want to chat? Feel free to reach out!</p>
+
+            <div class="contact-info">
+                <div class="contact-box">
+                    <h3>Contact Information</h3>
+                    <div class="contact-item">
+                        <span class="contact-label">Email</span>
+                        <a href="mailto:carlos.lopez@email.com" id="contact-email">carlos.lopez@email.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Location</span>
+                        <span id="contact-location">Mexico City, Mexico</span>
+                    </div>
+                </div>
+                <div class="contact-box">
+                    <h3>Follow me on</h3>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/carlos-l%C3%B3pez-estrada/" target="_blank">LinkedIn</a>
+                        <a href="https://github.com/carloslestrada" target="_blank">GitHub</a>
+                        <a href="https://twitter.com" target="_blank">Twitter</a>
+                        <a href="mailto:carlos.lopez@email.com">Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Carlos López Estrada. All rights reserved.</p>
+            <p class="footer-note">Built with HTML, CSS & lots of ☕</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
