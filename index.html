@@ -10,39 +10,7 @@
 
 <body>
     <!-- PANEL EDICIÓN -->
-    <div id="edit-panel" class="edit-panel" style="display: none;">
-        <div class="edit-overlay" onclick="closeEditPanel()"></div>
-        <div class="edit-modal">
-            <div class="edit-header">
-                <h2>✏️ Editar Perfil</h2>
-                <button class="close-btn" onclick="closeEditPanel()">✕</button>
-            </div>
-            <div class="edit-body">
-                <label>Nombre:</label>
-                <input type="text" id="edit-name" placeholder="Tu nombre completo">
-
-                <label>Título:</label>
-                <input type="text" id="edit-title" placeholder="Ej: Computer Engineering Student">
-
-                <label>Descripción:</label>
-                <textarea id="edit-desc" placeholder="Cuéntanos sobre ti..."></textarea>
-
-                <label>Email:</label>
-                <input type="email" id="edit-email" placeholder="tu@email.com">
-
-                <label>Teléfono:</label>
-                <input type="tel" id="edit-phone" placeholder="+1 (555) 123-4567">
-
-                <label>Ubicación:</label>
-                <input type="text" id="edit-location" placeholder="Ciudad, País">
-
-                <div class="edit-actions">
-                    <button class="btn btn-primary" onclick="saveProfile()">Guardar cambios</button>
-                    <button class="btn btn-secondary" onclick="closeEditPanel()">Cancelar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
     <!-- NAVEGACIÓN -->
     <nav class="navbar">
@@ -54,7 +22,7 @@
                 <a href="#certifications">Certifications</a>
                 <a href="#hobbies">Hobbies</a>
                 <a href="#contact">Contact</a>
-                <button id="edit-toggle" class="btn-settings" onclick="toggleEditMode()">⚙️</button>
+
             </div>
         </div>
     </nav>
@@ -119,7 +87,7 @@
             <div class="info-cards">
                 <div class="info-card">
                     <h3>Email</h3>
-                    <p id="info-email">carlos.lopez@email.com</p>
+                    <p id="info-email">carloscii203@gmail.com</p>
                 </div>
                 <div class="info-card">
                     <h3>Location</h3>
@@ -136,17 +104,38 @@
    
 
     <!-- CERTIFICATIONS -->
-<section id="certifications" class="section certifications">
+<section id="certifications and courses" class="section certifications">
     <div class="container">
         <h2>Certifications</h2>
         <div class="certs-grid">
             <div class="cert-card">
-                <img src="img/aws-logo.png" alt="AWS" class="cert-img-top">
-                <h3>AWS Cloud Practitioner</h3>
-                <p class="cert-org">Amazon Web Services</p>
-                <p class="cert-year">2024</p>
+                <img src="metaui.png" alt="Meta" class="cert-img-top">
+                <h3>Create the user interface with SwiftUI</h3>
+                <p class="cert-org">Meta</p>
+                <p class="cert-year">June 29, 2025</p>
             </div>
+
+            <div class="cert-card">
+                <img src="gf.png" alt="Google" class="cert-img-top">
+                <h3>Foundations of Cybersecurity</h3>
+                <p class="cert-org">Google Career Certificates</p>
+                <p class="cert-year">Jan 29, 2025</p>
+            </div>   
+                <div class="cert-card">
+                    <img src="mi.png" alt="Meta" class="cert-img-top">
+                    <h3>Introduction to iOS mobile Application Development</h3>
+                    <p class="cert-org">Cousera Certificates</p>
+                    <p class="cert-year">June 11, 2025</p>
+                </div>
+                <div class="cert-card">
+                    <img src="scrum.png" alt="Meta" class="cert-img-top">
+                    <h3>Scrum Fundamentals Certified</h3>
+                    <p class="cert-org">Scrum study</p>
+                    <p class="cert-year">March 28, 2024</p>
+                </div>
+                
         </div>
+        
     </div>
 </section>
 
@@ -155,19 +144,45 @@
         <h2>My Work</h2>
         <div class="projects-grid">
             <div class="project-card">
-                <img src="carlitos.jpg" alt="E-commerce" class="card-img">
+                <img src="z80.png" alt="Z80 Processor Simulator" class="card-img">
                 <div class="card-content">
-                    <h3>E-Commerce Platform</h3>
-                    <p>A full-stack e-commerce application with payment integration.</p>
-                    <div class="project-tags">React · Node.js · MongoDB</div>
+                    <h3>Z80 Processor Simulator</h3>
+                    <p>I developed a functional simulator of the Z80 microprocessor using Java, designed as an educational tool to help
+                    students understand low-level computer architecture and instruction execution. The project replicates key components of
+                    the processor, including the Arithmetic Logic Unit (ALU), control unit, registers, instruction set, and memory
+                    management.
+                 The simulator was implemented using object-oriented programming principles and data structures to efficiently represent
+                    memory, registers, and instruction handling. I designed the architecture to emulate the fetch–decode–execute cycle,
+                    allowing instructions to be interpreted and executed similarly to how the real Z80 processor operates.
+                
+                To enhance usability and debugging capabilities, I built a graphical interface using Java Swing that displays processor
+                registers, memory states, and instruction flow in real time. The system also includes step-by-step execution and
+                debugging features, enabling users to analyze how each instruction affects memory and register values.
+                
+                Concurrency was implemented through multithreading to manage execution flow and interface updates simultaneously,
+                improving performance and responsiveness of the simulator.
+                
+                The simulator is currently used by students in the Computer Structure and Programming course as a learning tool to
+                better understand processor behavior, assembly instructions, and low-level system operation</p>
+                    <div class="project-tags">Java, Computer Architecture, CPU Simulation, Data Structures, OOP, Java Swing</div>
                 </div>
             </div>
             <div class="project-card">
-                <img src="img/taskapp.jpg" alt="Task App" class="card-img">
+                <img src="basededatos.jpg" alt="Task App" class="card-img">
                 <div class="card-content">
-                    <h3>Task Management App</h3>
-                    <p>A collaborative tool with real-time updates.</p>
-                    <div class="project-tags">Vue.js · Firebase</div>
+                    <h3>Relational Database Design and Implementation</h3>
+                    <p>I designedI designed and implemented a relational database system using Microsoft SQL Server, covering the main stages of database
+                    development from conceptual design to implementation. The project started with the creation of an Entity–Relationship
+                    (ER) model to identify entities, attributes, and relationships within the system.
+                    
+                    After defining the conceptual model, I translated it into a logical relational schema, applying normalization up to
+                    Third Normal Form (3NF) to eliminate redundancy and maintain data integrity. I then implemented the database using
+                    Transact-SQL (T-SQL), creating tables, constraints, and relationships using primary and foreign keys.
+                    
+                    To support data operations and improve maintainability, I developed stored procedures, triggers, views, and functions
+                    that automate processes and enforce business rules directly at the database level. I also optimized query performance by
+                    implementing indexes and efficient SQL queries, including joins, subqueries, and aggregation functions. </p>
+                    <div class="project-tags">SQL Server, T-SQL, Database Security, Data Integrity, Stored Procedures, Indexing</div>
                 </div>
             </div>
         </div>
@@ -179,12 +194,41 @@
         <h2>Beyond Code</h2>
         <div class="hobbies-grid">
             <div class="hobby-card">
-                <img src="img/photo.jpg" alt="Photography" class="hobby-img">
+                <img src="gdl.jpg" alt="Photography" class="hobby-img">
                 <div class="hobby-info">
-                    <span class="hobby-icon">📷</span>
-                    <h3>Photography</h3>
+                    <span class="hobby-icon"></span>
+                    <h3>I won 1st place in my first iOS Hackathon national in Guadalajara, i'm very proud of my achievement</h3>
                 </div>
             </div>
+            <div class="hobby-card">
+                <img src="1st.jpeg" alt="Photography" class="hobby-img">
+                <div class="hobby-info">
+                    <span class="hobby-icon"></span>
+                    <h3>This is my first Hackathon on my life, and i won 1st place, omg i´m so happy</h3>
+                </div>
+            </div>
+            <div class="hobby-card">
+                <img src="cielo.jpg" alt="Photography" class="hobby-img">
+                <div class="hobby-info">
+                    <span class="hobby-icon"></span>
+                    <h3>This is my first time on a plane go to iOS National Hackathon</h3>
+                </div>
+            </div>
+            <div class="hobby-card">
+                <img src="cj.jpeg" alt="Photography" class="hobby-img">
+                <div class="hobby-info">
+                    <span class="hobby-icon">📷</span>
+                    <h3>I really like take a photos, this photo shows my passion for capturing moments</h3>
+                </div>
+            </div>
+            <div class="hobby-card">
+                <img src="coffe.jpeg" alt="Photography" class="hobby-img">
+                <div class="hobby-info">
+                    <span class="hobby-icon"></span>
+                    <h3>I work weekends in a coffeshop, i think what i do it will be worth it</h3>
+                </div>
+            </div>
+            
         </div>
     </div>
 </section>
@@ -201,7 +245,7 @@
                     <h3>Contact Information</h3>
                     <div class="contact-item">
                         <span class="contact-label">Email</span>
-                        <a href="mailto:carlos.lopez@email.com" id="contact-email">carlos.lopez@email.com</a>
+                        <a href="mailto:carlos.lopez@email.com" id="contact-email">carloscii203@gmail.com</a>
                     </div>
                     <div class="contact-item">
                         <span class="contact-label">Location</span>
