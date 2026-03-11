@@ -960,3 +960,34 @@ body {
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
     color: white;
 }
+/* Project Card Accordion */
+.project-card {
+    cursor: pointer;
+}
+
+.card-content p {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, opacity 0.4s ease;
+    opacity: 0;
+    margin: 0;
+}
+
+.project-card.open .card-content p {
+    max-height: 600px;
+    opacity: 1;
+    margin: 0.75rem 0;
+}
+
+.card-content h3::after {
+    content: ' ▼';
+    font-size: 0.75rem;
+    opacity: 0.6;
+    transition: transform 0.3s ease;
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.project-card.open .card-content h3::after {
+    transform: rotate(180deg);
+}

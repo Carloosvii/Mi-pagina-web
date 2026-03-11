@@ -15,7 +15,7 @@
     <!-- NAVEGACIÓN -->
     <nav class="navbar">
         <div class="container navbar-inner">
-            <a href="#" class="logo">Carlos</a>
+            <a href="#" class="logo">Carlos Séptimo</a>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#projects">Projects</a>
@@ -41,7 +41,7 @@
                         <a href="cv_lopez_estrada_carlos.pdf" download="cv_lopez_estrada_carlos.pdf" class="btn btn-primary">Download CV</a>
                         <a href="https://www.linkedin.com/in/carlos-l%C3%B3pez-estrada/" target="_blank"
                             class="btn btn-secondary"> LinkedIn</a>
-                        <a href="https://github.com/carloslestrada" target="_blank" class="btn btn-secondary">
+                        <a href="https://github.com/Carloosvii" target="_blank" class="btn btn-secondary">
                             GitHub</a>
                     </div>
                 </div>
@@ -144,27 +144,92 @@
         <h2>My Work</h2>
         <div class="projects-grid">
             <div class="project-card">
+                <img src="uniway.png" alt="iOS App - Uniway" class="card-img">
+                <div class="card-content">
+                    <h3>iOS App - Uniway</h3>
+                    <p>UniWay is a native iOS solution designed to bridge the mobile accessibility gap. Developed using a scalable SwiftUI
+                    architecture, it integrates Total Native Accessibility as its key differentiator. Through the use of CoreImage, I
+                    implemented a real-time processing engine that applies color filters (Deuteranopia, Protanopia, and Tritanopia) directly
+                    to the interface, allowing users with color blindness to interact with critical elements without loss of information.
+                    The experience is further enhanced by AVFoundation for dynamic auditory feedback, along with a comprehensive
+                    implementation of VoiceOver and Dynamic Type to ensure universal navigation. Following an 'Inclusive Security'
+                    philosophy, the app mitigates vulnerabilities through strict data validation and rigorous management of Privacy
+                    Permissions in the Info.plist file, demonstrating that it is possible to create high-impact social solutions that meet
+                    the most demanding security standards in real-world environments.</p>
+                    <div class="project-tags">Swift, SwiftUI, iOS Development, Accessibility, CoreImage, AVFoundation</div>
+                </div>
+            </div>
+            <div class="project-card">
                 <img src="z80.png" alt="Z80 Processor Simulator" class="card-img">
                 <div class="card-content">
                     <h3>Z80 Processor Simulator</h3>
-                    <p>I developed a functional simulator of the Z80 microprocessor using Java, designed as an educational tool to help
-                    students understand low-level computer architecture and instruction execution. The project replicates key components of
-                    the processor, including the Arithmetic Logic Unit (ALU), control unit, registers, instruction set, and memory
-                    management.
-                 The simulator was implemented using object-oriented programming principles and data structures to efficiently represent
-                    memory, registers, and instruction handling. I designed the architecture to emulate the fetch–decode–execute cycle,
-                    allowing instructions to be interpreted and executed similarly to how the real Z80 processor operates.
-                
-                To enhance usability and debugging capabilities, I built a graphical interface using Java Swing that displays processor
-                registers, memory states, and instruction flow in real time. The system also includes step-by-step execution and
-                debugging features, enabling users to analyze how each instruction affects memory and register values.
-                
-                Concurrency was implemented through multithreading to manage execution flow and interface updates simultaneously,
-                improving performance and responsiveness of the simulator.
-                
-                The simulator is currently used by students in the Computer Structure and Programming course as a learning tool to
-                better understand processor behavior, assembly instructions, and low-level system operation</p>
+                    <p>I developed a functional simulator of the Z80 microprocessor using Java, designed as an educational tool to
+                        help
+                        students understand low-level computer architecture and instruction execution. The project replicates key
+                        components of
+                        the processor, including the Arithmetic Logic Unit (ALU), control unit, registers, instruction set, and
+                        memory
+                        management.
+                        The simulator was implemented using object-oriented programming principles and data structures to
+                        efficiently represent
+                        memory, registers, and instruction handling. I designed the architecture to emulate the fetch–decode–execute
+                        cycle,
+                        allowing instructions to be interpreted and executed similarly to how the real Z80 processor operates.
+            
+                        To enhance usability and debugging capabilities, I built a graphical interface using Java Swing that
+                        displays processor
+                        registers, memory states, and instruction flow in real time. The system also includes step-by-step execution
+                        and
+                        debugging features, enabling users to analyze how each instruction affects memory and register values.
+            
+                        Concurrency was implemented through multithreading to manage execution flow and interface updates
+                        simultaneously,
+                        improving performance and responsiveness of the simulator.
+            
+                        The simulator is currently used by students in the Computer Structure and Programming course as a learning
+                        tool to
+                        better understand processor behavior, assembly instructions, and low-level system operation</p>
                     <div class="project-tags">Java, Computer Architecture, CPU Simulation, Data Structures, OOP, Java Swing</div>
+                </div>
+            </div>
+            <div class="project-card">
+                <img src="SO.png" alt="Dynamic Concurrency and Process Synchronization Simulator in Java: My Feelings" class="card-img">
+                <div class="card-content">
+                    <h3>Dynamic Concurrency and Process Synchronization Simulator in Java: My Feelings</h3>
+                    <p>In this Operating Systems project, I developed a Java application that uses advanced concepts to model the dynamics of
+                    human emotions as a concurrent system. My goal was to abstract an everyday problem—the coexistence of feelings—and
+                    translate it into a computational model where multiple emotional "entities" are active, influencing each other and
+                    changing their intensity non-sequentially.
+                    
+                    Synchronization Mechanisms and Technical Components:
+                    
+                    To ensure this system functioned robustly, I implemented the following mechanisms:
+                    
+                    Thread Management: I used an ExecutorService with a fixed thread pool (newFixedThreadPool) to manage the independent
+                    execution of each emotion, which I designed by implementing the Runnable interface.
+                    
+                    Semaphore Control: I implemented a Global Semaphore limited to 3 permissions. This allowed me to control the number of
+                    intense emotions active simultaneously, preventing resource saturation in both the emotional model and the system.
+                    
+                    Mutual Exclusion: I used Lock objects (ReentrantLock) and Condition Variables to protect access to critical sections,
+                    such as the graphical interface update and compatibility checks, preventing race conditions.
+                    
+                    Compatibility Logic: I defined mutually exclusive emotion groups (such as Joy/Anxiety). I used threads that wait or
+                    automatically deactivate depending on the overall system state.
+                    
+                    Graphical Interface (GUI): I developed the interface in Swing, ensuring smooth and safe progress bar updates using
+                    SwingUtilities.invokeLater.
+                    
+                    What did I learn from this project?
+                    
+                    This development significantly strengthened my software engineering skills. I learned to abstract real-world problems
+                    into structured logical models and to master critical concurrency management, understanding how to avoid deadlocks
+                    through the strategic use of semaphores and locks. Furthermore, I refined the synchronization of incompatible processes,
+                    where the execution of one thread depends on the state of others, and explored event-driven development to trigger
+                    asynchronous background processes. Finally, this project taught me how to optimize the user experience, enabling a
+                    technical visualization to reflect realistic behaviors through precise thread control.
+                    </p>
+                    <div class="project-tags">Java, Multithreading, Concurrency, Semaphores & Locks, Swing (GUI),Operating Systems</div>
                 </div>
             </div>
             <div class="project-card">
