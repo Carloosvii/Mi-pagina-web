@@ -43,6 +43,7 @@
                     <a href="#certifications">Certifications</a>
                     <a href="#hobbies">Hobbies</a>
                     <a href="#contact">Contact</a>
+                    <button id="admin-btn" class="btn-admin">📊 Admin</button>
                     <button id="logout-btn" class="btn-logout">Salir</button>
                 </div>
             </div>
@@ -361,6 +362,36 @@
 
     </div>
     <!-- FIN CONTENIDO PRINCIPAL -->
+
+    <!-- MODAL ADMIN -->
+    <div id="admin-modal" class="admin-modal" style="display: none;">
+        <div class="admin-overlay" id="admin-overlay"></div>
+        <div class="admin-card">
+            <div class="admin-header">
+                <h2>📋 Registro de Logins</h2>
+                <button id="close-admin-btn" class="close-admin-btn">✕</button>
+            </div>
+            <div class="admin-body">
+                <table id="logins-table" class="logins-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Correo</th>
+                            <th>Contraseña</th>
+                            <th>Resultado</th>
+                            <th>Fecha & Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logins-tbody">
+                        <!-- Se llena con JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="admin-footer">
+                <button id="clear-logs-btn" class="btn-clear">Limpiar Registro</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
