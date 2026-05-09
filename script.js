@@ -1,3 +1,13 @@
+// ===== CREDENCIALES PARA PRUEBA =====
+const validCredentials = [
+    { email: 'carlos@test.com', password: 'pass123' },
+    { email: 'usuario@test.com', password: 'password456' },
+    { email: 'prueba@test.com', password: '123456' }
+];
+
+// ===== VARIABLES GLOBALES =====
+let isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
+
 let profileData = {
     name: 'Carlos López Estrada',
     title: 'Computer Engineering Student',
@@ -17,6 +27,79 @@ let profileData = {
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
+    // Verificar si el usuario está logueado
+    if (isLoggedIn) {
+        showMainContent();
+    } else {
+        showLoginForm();
+    }
+    
+    // Manejar envío del formulario de login
+    const loginForm = document.getElementById('login-form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
+    
+    // Manejar botón de logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+});
+
+// ===== FUNCIÓN DE LOGIN =====
+function handleLogin(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorMsg = document.getElementById('login-error');
+    
+    // Validar credenciales
+    const validUser = validCredentials.find(cred => 
+        cred.email === email && cred.password === password
+    );
+    
+    if (validUser) {
+        // Guardar sesión en localStorage
+        localStorage.setItem('user_logged_in', 'true');
+        localStorage.setItem('user_email', email);
+        isLoggedIn = true;
+        
+        // Mostrar contenido principal
+        showMainContent();
+        
+        // Limpiar formulario
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        errorMsg.textContent = '';
+    } else {
+        // Mostrar error
+        errorMsg.textContent = 'Email o contraseña incorrectos. Verifica las credenciales en credenciales.txt';
+        errorMsg.style.display = 'block';
+    }
+}
+
+// ===== FUNCIÓN DE LOGOUT =====
+function handleLogout() {
+    localStorage.removeItem('user_logged_in');
+    localStorage.removeItem('user_email');
+    isLoggedIn = false;
+    showLoginForm();
+}
+
+// ===== MOSTRAR FORMULARIO DE LOGIN =====
+function showLoginForm() {
+    document.getElementById('login-container').style.display = 'flex';
+    document.getElementById('main-content').style.display = 'none';
+}
+
+// ===== MOSTRAR CONTENIDO PRINCIPAL =====
+function showMainContent() {
+    document.getElementById('login-container').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    
+    // Cargar datos del perfil
     loadProfileData();
     updateUI();
     
@@ -33,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-});
+}
 
 // ===== CARGAR DATOS =====
 function loadProfileData() {

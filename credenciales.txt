@@ -1,0 +1,20 @@
+===============================================
+    CREDENCIALES DE PRUEBA - PÁGINA WEB
+===============================================
+
+Usuario 1:
+Email: carlos@test.com
+Contraseña: pass123
+
+Usuario 2:
+Email: usuario@test.com
+Contraseña: password456
+
+Usuario 3:
+Email: prueba@test.com
+Contraseña: 123456
+
+===============================================
+Nota: Estas credenciales son solo para prueba.
+En producción, implementar una base de datos real.
+===============================================
