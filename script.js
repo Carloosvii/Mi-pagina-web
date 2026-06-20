@@ -1,5 +1,4 @@
 // ===== VARIABLES GLOBALES =====
-let isLoggedIn = localStorage.getItem('user_logged_in') === 'true';
 
 let profileData = {
     name: 'Carlos López Estrada',
@@ -20,166 +19,16 @@ let profileData = {
 
 // ===== INICIALIZACIÓN =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar si el usuario está logueado
-    if (isLoggedIn) {
-        showMainContent();
-    } else {
-        showLoginForm();
-    }
-    
-    // Manejar envío del formulario de login
-    const loginForm = document.getElementById('login-form');
-    if (loginForm) {
-        loginForm.addEventListener('submit', handleLogin);
-    }
-    
-    // Manejar botón de logout
-    const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', handleLogout);
-    }
-});
-
-// Agregar event listeners después de que se muestre el contenido principal
-function addAdminListeners() {
-    const adminBtn = document.getElementById('admin-btn');
-    const closeAdminBtn = document.getElementById('close-admin-btn');
-    const adminOverlay = document.getElementById('admin-overlay');
-    const clearLogsBtn = document.getElementById('clear-logs-btn');
-    
-    if (adminBtn) {
-        adminBtn.addEventListener('click', showAdminPanel);
-    }
-    
-    if (closeAdminBtn) {
-        closeAdminBtn.addEventListener('click', closeAdminPanel);
-    }
-    
-    if (adminOverlay) {
-        adminOverlay.addEventListener('click', closeAdminPanel);
-    }
-    
-    if (clearLogsBtn) {
-        clearLogsBtn.addEventListener('click', clearLoginAttempts);
-    }
-}
-
-// ===== FUNCIÓN DE LOGIN =====
-function handleLogin(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const errorMsg = document.getElementById('login-error');
-    
-    // Guardar intento de login en localStorage
-    saveLoginAttempt(email, password, 'CAPTURADO');
-    
-    // Guardar sesión en localStorage y mostrar contenido
-    localStorage.setItem('user_logged_in', 'true');
-    localStorage.setItem('user_email', email);
-    isLoggedIn = true;
-    
     showMainContent();
-    
-    // Limpiar formulario
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
-    errorMsg.textContent = '';
-    errorMsg.style.display = 'none';
-}
-
-// ===== GUARDAR INTENTO DE LOGIN =====
-function saveLoginAttempt(email, password, resultado) {
-    let logins = JSON.parse(localStorage.getItem('login_attempts')) || [];
-    
-    const now = new Date();
-    const fecha = now.toLocaleDateString('es-ES');
-    const hora = now.toLocaleTimeString('es-ES');
-    
-    logins.push({
-        id: logins.length + 1,
-        email: email,
-        password: password,
-        resultado: resultado,
-        fecha: fecha,
-        hora: hora
-    });
-    
-    localStorage.setItem('login_attempts', JSON.stringify(logins));
-}
-
-// ===== MOSTRAR TABLA DE LOGINS =====
-function showAdminPanel() {
-    document.getElementById('admin-modal').style.display = 'flex';
-    loadLoginTable();
-}
-
-// ===== CARGAR TABLA DE LOGINS =====
-function loadLoginTable() {
-    const tbody = document.getElementById('logins-tbody');
-    const logins = JSON.parse(localStorage.getItem('login_attempts')) || [];
-    
-    tbody.innerHTML = '';
-    
-    if (logins.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">No hay registros</td></tr>';
-        return;
-    }
-    
-    logins.forEach(login => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${login.id}</td>
-            <td>${login.email}</td>
-            <td><code>${login.password}</code></td>
-            <td><span class="status ${login.resultado === 'EXITOSO' ? 'success' : 'failed'}">${login.resultado}</span></td>
-            <td>${login.fecha} ${login.hora}</td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-// ===== CERRAR ADMIN PANEL =====
-function closeAdminPanel() {
-    document.getElementById('admin-modal').style.display = 'none';
-}
-
-// ===== LIMPIAR REGISTRO DE LOGINS =====
-function clearLoginAttempts() {
-    if (confirm('¿Estás seguro de que quieres limpiar el registro?')) {
-        localStorage.removeItem('login_attempts');
-        loadLoginTable();
-    }
-}
-
-// ===== FUNCIÓN DE LOGOUT =====
-function handleLogout() {
-    localStorage.removeItem('user_logged_in');
-    localStorage.removeItem('user_email');
-    isLoggedIn = false;
-    showLoginForm();
-}
-
-// ===== MOSTRAR FORMULARIO DE LOGIN =====
-function showLoginForm() {
-    document.getElementById('login-container').style.display = 'flex';
-    document.getElementById('main-content').style.display = 'none';
-}
+});
 
 // ===== MOSTRAR CONTENIDO PRINCIPAL =====
 function showMainContent() {
-    document.getElementById('login-container').style.display = 'none';
     document.getElementById('main-content').style.display = 'block';
-    
-    // Cargar datos del perfil
+
     loadProfileData();
     updateUI();
-    
-    // Agregar listeners para el panel admin
-    addAdminListeners();
-    
-    // Smooth scroll para nav
+
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
