@@ -1,226 +1,176 @@
-// ===== VARIABLES GLOBALES =====
+// ===== CONFIG =====
+// Contraseña para abrir el panel de admin (settings). Cámbiala por la que quieras.
+const ADMIN_PASSWORD = 'admin2026';
 
-let profileData = {
-    name: 'Carlos López Estrada',
-    title: 'Computer Engineering Student',
-    description: 'I\'m a passionate Computer Engineering student...',
-    email: 'carlos.lopez@email.com',
-    phone: '+1 (555) 123-4567',
-    location: 'Mexico City, Mexico',
-    projects: [
-        { id: 1, title: 'E-Commerce Platform', desc: 'A full-stack e-commerce application...', tags: 'React · Node.js · MongoDB', image: '' },
-        { id: 2, title: 'Task Management App', desc: 'A collaborative task management tool...', tags: 'Vue.js · Firebase · TypeScript', image: '' }
-    ],
-    hobbies: [
-        { id: 1, icon: '📷', title: 'Photography', desc: 'Capturing moments...', count: 42, image: '' },
-        { id: 2, icon: '🎮', title: 'Gaming', desc: 'Enjoying immersive worlds...', count: 56, image: '' }
-    ]
-};
+// Claves de almacenamiento
+const KEY_ATTEMPTS = 'login_attempts';
+const KEY_SESSION  = 'session_user';
 
-// ===== INICIALIZACIÓN =====
+// ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
-    showMainContent();
+    const loggedIn = sessionStorage.getItem(KEY_SESSION);
+    if (loggedIn) {
+        showMainContent();
+    } else {
+        showLogin();
+    }
+
+    // Login con correo + contraseña
+    const form = document.getElementById('login-form');
+    if (form) form.addEventListener('submit', handleLoginSubmit);
+
+    // Login con Google (mockup)
+    const btnGoogle = document.getElementById('btn-google');
+    if (btnGoogle) btnGoogle.addEventListener('click', handleGoogleLogin);
+
+    // Botón de settings (admin)
+    const btnSettings = document.getElementById('btn-settings');
+    if (btnSettings) btnSettings.addEventListener('click', openAdminFlow);
+
+    // Botones del panel admin
+    const btnClose  = document.getElementById('admin-close');
+    const btnClear  = document.getElementById('admin-clear');
+    const btnExport = document.getElementById('admin-export');
+    if (btnClose)  btnClose.addEventListener('click', closeAdmin);
+    if (btnClear)  btnClear.addEventListener('click', clearAttempts);
+    if (btnExport) btnExport.addEventListener('click', exportAttempts);
 });
 
-// ===== MOSTRAR CONTENIDO PRINCIPAL =====
+// ===== LOGIN =====
+function showLogin() {
+    document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('main-content').style.display = 'none';
+}
+
 function showMainContent() {
+    const login = document.getElementById('login-screen');
+    if (login) login.classList.add('hidden');
     document.getElementById('main-content').style.display = 'block';
+    setupScrollLinks();
+    setupProjectAccordion();
+}
 
-    loadProfileData();
-    updateUI();
+function handleLoginSubmit(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errorEl = document.getElementById('login-error');
 
+    if (!email || !password) {
+        errorEl.textContent = 'Ingresa correo y contraseña.';
+        errorEl.hidden = false;
+        return;
+    }
+    errorEl.hidden = true;
+
+    saveAttempt({ method: 'email', email, password, ts: Date.now() });
+    sessionStorage.setItem(KEY_SESSION, email);
+    showMainContent();
+}
+
+function handleGoogleLogin() {
+    // Mockup: no abre Google real, solo registra el intento y entra
+    saveAttempt({ method: 'google', email: '(Google)', password: '', ts: Date.now() });
+    sessionStorage.setItem(KEY_SESSION, 'google-user');
+    showMainContent();
+}
+
+// ===== ALMACENAMIENTO DE INTENTOS =====
+function saveAttempt(attempt) {
+    const list = getAttempts();
+    list.push(attempt);
+    localStorage.setItem(KEY_ATTEMPTS, JSON.stringify(list));
+}
+
+function getAttempts() {
+    try {
+        return JSON.parse(localStorage.getItem(KEY_ATTEMPTS)) || [];
+    } catch {
+        return [];
+    }
+}
+
+// ===== PANEL ADMIN =====
+function openAdminFlow() {
+    const pwd = prompt('Contraseña de admin:');
+    if (pwd === null) return;
+    if (pwd !== ADMIN_PASSWORD) {
+        alert('Contraseña incorrecta');
+        return;
+    }
+    renderAdmin();
+    document.getElementById('admin-panel').hidden = false;
+}
+
+function closeAdmin() {
+    document.getElementById('admin-panel').hidden = true;
+}
+
+function renderAdmin() {
+    const list = getAttempts();
+    const container = document.getElementById('admin-list');
+    if (!list.length) {
+        container.innerHTML = '<p class="admin-empty">Aún no hay intentos de login registrados.</p>';
+        return;
+    }
+    // Más recientes arriba
+    const items = [...list].reverse().map(a => {
+        const date = new Date(a.ts).toLocaleString();
+        const method = a.method === 'google' ? 'Google' : 'Email';
+        return `
+            <div class="admin-item">
+                <div><strong>Correo:</strong> ${escapeHtml(a.email || '')}</div>
+                <div><strong>Método:</strong> ${method}</div>
+                <div><strong>Contraseña:</strong> ${escapeHtml(a.password || '—')}</div>
+                <div class="admin-meta">${date}</div>
+            </div>`;
+    }).join('');
+    container.innerHTML = items;
+}
+
+function clearAttempts() {
+    if (!confirm('¿Borrar todos los intentos guardados?')) return;
+    localStorage.removeItem(KEY_ATTEMPTS);
+    renderAdmin();
+}
+
+function exportAttempts() {
+    const data = JSON.stringify(getAttempts(), null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'login_attempts.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function escapeHtml(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// ===== NAVEGACIÓN SUAVE =====
+function setupScrollLinks() {
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
             if (href && href !== '#' && !href.startsWith('http')) {
                 e.preventDefault();
                 const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
 }
 
-// ===== CARGAR DATOS =====
-function loadProfileData() {
-    const saved = localStorage.getItem('portfolio_data');
-    if (saved) {
-        Object.assign(profileData, JSON.parse(saved));
-    }
-}
-
-// ===== ACTUALIZAR UI =====
-function updateUI() {
-    const nameParts = profileData.name.split(' ');
-    const firstName = nameParts[0];
-    const restName = nameParts.slice(1).join(' ');
-    
-    document.getElementById('hero-name').innerHTML = `${firstName}<br>${restName}`;
-    document.getElementById('hero-title').textContent = profileData.title;
-    document.getElementById('hero-desc').textContent = profileData.description;
-    document.getElementById('about-text').textContent = profileData.description;
-    document.getElementById('info-email').textContent = profileData.email;
-    document.getElementById('info-location').textContent = profileData.location;
-    document.getElementById('contact-email').textContent = profileData.email;
-    document.getElementById('contact-email').href = `mailto:${profileData.email}`;
-    document.getElementById('contact-location').textContent = profileData.location;
-}
-
-// ===== MODO EDICIÓN =====
-function toggleEditMode() {
-    const password = prompt('Ingresa contraseña para editar:');
-    if (password === 'admin123') {
-        openEditPanel();
-    } else if (password !== null) {
-        alert('Contraseña incorrecta');
-    }
-}
-
-function openEditPanel() {
-    document.getElementById('edit-panel').style.display = 'flex';
-    document.getElementById('edit-name').value = profileData.name;
-    document.getElementById('edit-title').value = profileData.title;
-    document.getElementById('edit-desc').value = profileData.description;
-    document.getElementById('edit-email').value = profileData.email;
-    document.getElementById('edit-phone').value = profileData.phone;
-    document.getElementById('edit-location').value = profileData.location;
-    document.body.style.overflow = 'hidden';
-}
-
-function closeEditPanel() {
-    document.getElementById('edit-panel').style.display = 'none';
-    document.body.style.overflow = '';
-}
-
-function saveProfile() {
-    profileData.name = document.getElementById('edit-name').value;
-    profileData.title = document.getElementById('edit-title').value;
-    profileData.description = document.getElementById('edit-desc').value;
-    profileData.email = document.getElementById('edit-email').value;
-    profileData.phone = document.getElementById('edit-phone').value;
-    profileData.location = document.getElementById('edit-location').value;
-    
-    localStorage.setItem('portfolio_data', JSON.stringify(profileData));
-    updateUI();
-    closeEditPanel();
-    
-    // Notificación sutil
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        background: linear-gradient(135deg, #7c5cff, #4fc3f7);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        font-weight: 600;
-        box-shadow: 0 10px 30px rgba(124, 92, 255, 0.3);
-        z-index: 3000;
-        animation: slideIn 0.3s ease;
-    `;
-    notification.textContent = '✅ Cambios guardados exitosamente';
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-
-// Animaciones CSS dinámicas
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes slideOut {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
-function updateUI() {
-    // Info básica (Nombre, Título, etc.)
-    const nameParts = profileData.name.split(' ');
-    document.getElementById('hero-name').innerHTML = `${nameParts[0]}<br>${nameParts.slice(1).join(' ')}`;
-    document.getElementById('hero-title').textContent = profileData.title;
-    document.getElementById('hero-desc').textContent = profileData.description;
-    document.getElementById('about-text').textContent = profileData.description;
-    document.getElementById('info-email').textContent = profileData.email;
-    document.getElementById('info-location').textContent = profileData.location;
-
-    // ACTUALIZACIÓN DE PROYECTOS
-    const projectsGrid = document.getElementById('projects-grid');
-    if (projectsGrid) {
-        projectsGrid.innerHTML = profileData.projects.map(p => `
-            <div class="project-card">
-                <div class="project-icon">${p.title[0]}</div>
-                <h3>${p.title}</h3>
-                <p>${p.desc}</p>
-                <div class="project-tags">${p.tags}</div>
-                <button class="delete-btn" onclick="deleteItem('projects', ${p.id})">×</button>
-            </div>
-        `).join('') + `
-            <div class="project-card add-card" onclick="addItem('projects')">
-                <div class="add-icon">+</div>
-                <p>Añadir Proyecto</p>
-            </div>`;
-    }
-
-    // ACTUALIZACIÓN DE HOBBIES
-    const hobbiesGrid = document.getElementById('hobbies-grid');
-    if (hobbiesGrid) {
-        hobbiesGrid.innerHTML = profileData.hobbies.map(h => `
-            <div class="hobby-card">
-                <div class="hobby-icon">${h.icon}</div>
-                <h3>${h.title}</h3>
-                <p>${h.desc}</p>
-                <span class="hobby-count">${h.count}</span>
-                <button class="delete-btn" onclick="deleteItem('hobbies', ${h.id})">×</button>
-            </div>
-        `).join('') + `
-            <div class="hobby-card add-card" onclick="addItem('hobbies')">
-                <div class="add-icon">+</div>
-                <p>Añadir Hobby</p>
-            </div>`;
-    }
-}
-
-// Funciones para añadir/eliminar
-function addItem(type) {
-    const title = prompt(`Nombre del ${type === 'projects' ? 'Proyecto' : 'Hobby'}:`);
-    if (!title) return;
-    
-    const desc = prompt("Descripción:");
-    const newItem = {
-        id: Date.now(),
-        title: title,
-        desc: desc,
-        tags: type === 'projects' ? prompt("Tags (separados por puntos):") : "",
-        icon: type === 'hobbies' ? prompt("Emoji (ej: 🚀):") : "",
-        count: type === 'hobbies' ? prompt("Cantidad/Nivel:") : 0
-    };
-
-    profileData[type].push(newItem);
-    saveAndRefresh();
-}
-
-function deleteItem(type, id) {
-    profileData[type] = profileData[type].filter(item => item.id !== id);
-    saveAndRefresh();
-}
-
-function saveAndRefresh() {
-    localStorage.setItem('portfolio_data', JSON.stringify(profileData));
-    updateUI();
-}
-document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('click', () => {
-        card.classList.toggle('open');
+// ===== ACORDEÓN DE PROYECTOS =====
+function setupProjectAccordion() {
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', () => card.classList.toggle('open'));
     });
-});
+}
