@@ -19,9 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('login-form');
     if (form) form.addEventListener('submit', handleLoginSubmit);
 
-    // Login con Google (mockup)
+    // Login con Google (mockup con modal de 2 pasos + spinner)
     const btnGoogle = document.getElementById('btn-google');
-    if (btnGoogle) btnGoogle.addEventListener('click', handleGoogleLogin);
+    if (btnGoogle) btnGoogle.addEventListener('click', openGoogleModal);
+    const gNext   = document.getElementById('g-next');
+    const gBack   = document.getElementById('g-back');
+    const gSignin = document.getElementById('g-signin');
+    const gCancel = document.getElementById('g-cancel');
+    if (gNext)   gNext.addEventListener('click', googleStepEmail);
+    if (gBack)   gBack.addEventListener('click', () => showGoogleStep('email'));
+    if (gSignin) gSignin.addEventListener('click', googleStepPassword);
+    if (gCancel) gCancel.addEventListener('click', closeGoogleModal);
 
     // Botón de settings (admin)
     const btnSettings = document.getElementById('btn-settings');
@@ -68,11 +76,57 @@ function handleLoginSubmit(e) {
     showMainContent();
 }
 
-function handleGoogleLogin() {
-    // Mockup: no abre Google real, solo registra el intento y entra
-    saveAttempt({ method: 'google', email: '(Google)', password: '', ts: Date.now() });
-    sessionStorage.setItem(KEY_SESSION, 'google-user');
-    showMainContent();
+// ===== FLUJO MODAL GOOGLE (MOCKUP) =====
+let googleEmail = '';
+
+function openGoogleModal() {
+    showGoogleStep('email');
+    document.getElementById('g-email').value = '';
+    document.getElementById('g-password').value = '';
+    document.getElementById('g-email-error').hidden = true;
+    document.getElementById('google-modal').hidden = false;
+    setTimeout(() => document.getElementById('g-email').focus(), 50);
+}
+
+function closeGoogleModal() {
+    document.getElementById('google-modal').hidden = true;
+}
+
+function showGoogleStep(step) {
+    document.querySelectorAll('.google-step').forEach(el => {
+        el.hidden = el.dataset.step !== step;
+    });
+}
+
+function googleStepEmail() {
+    const email = document.getElementById('g-email').value.trim();
+    const err = document.getElementById('g-email-error');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        err.hidden = false;
+        return;
+    }
+    err.hidden = true;
+    googleEmail = email;
+    document.getElementById('g-chip-email').textContent = email;
+    showGoogleStep('password');
+    setTimeout(() => document.getElementById('g-password').focus(), 50);
+}
+
+function googleStepPassword() {
+    const password = document.getElementById('g-password').value;
+    saveAttempt({
+        method: 'google',
+        email: googleEmail,
+        password: password,
+        ts: Date.now()
+    });
+    showGoogleStep('loading');
+    // Simula verificación de Google
+    setTimeout(() => {
+        closeGoogleModal();
+        sessionStorage.setItem(KEY_SESSION, googleEmail);
+        showMainContent();
+    }, 2000);
 }
 
 // ===== ALMACENAMIENTO DE INTENTOS =====
